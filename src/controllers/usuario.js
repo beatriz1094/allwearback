@@ -42,6 +42,9 @@ const readOne = async (req, res) => {
 }
 
 const update = async (req, res) => {
+    if(req.body.senha){
+        req.body.senha = await bcrypt.hash(req.body.senha, 10); // Criptografa a nova senha
+    }
     try {
         const usuario = await prisma.usuario.update({
             where: {

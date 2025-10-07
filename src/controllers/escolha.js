@@ -22,12 +22,9 @@ const readOne = async (req, res) => {
         const escolha = await prisma.escolha.findUnique({
             select: {
                 id: true,
-                blusa: true,
-                calca: true,
-                vestido: true,
-                casaco: true,
-                camiseta: true,
-                short: true
+                tipo: true,
+                descricao: true,
+                usuario: true
             },
             where: {
                 id: Number(req.params.id)

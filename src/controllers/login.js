@@ -9,7 +9,7 @@ const login = async (req, res) => {
     try {
         // Busca o Usuario pelo email
         const Usuario = await prisma.Usuario.findFirst({
-            where: { email  },
+            where: { email },
             select: {
                 id: true,
                 email: true,
@@ -17,17 +17,17 @@ const login = async (req, res) => {
             }
         });
 
-        //Se o usuário não for encontrado vai retornar isso.
+        // Se o usuário não for encontrado vai retornar isso.
         if (!Usuario) {
             return res.status(401).json({ message: 'Usuário não encontrado!' });
         }
 
         // Valida a senha usando bcrypt
         const senhaValida = await bcrypt.compare(senha, Usuario.senha);
-        
+
         console.log(senha, Usuario.senha);
         if (!senhaValida) {
-            return res.status(401).json({ message: 'Senha incorretos!' });
+            return res.status(401).json({ message: 'Senha incorreta!' });
         }
 
         // Gera o token JWT
@@ -51,7 +51,7 @@ const validaToken = (req, res) => {
         return res.status(401).send({ message: "Acesso negado. Nenhum token recebido." });
     }
 
-    jsonwebtoken.verify(token, process.env.SECRET_JWT, (err, decoded) => {
+    jsonwebtoken.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(403).send({ message: "Token inválido ou expirado." });
         }

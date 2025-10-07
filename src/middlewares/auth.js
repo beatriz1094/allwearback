@@ -7,7 +7,7 @@ const validate = (req, res, next) => {
         return res.status(401).send({ message: "Acesso negado. Nenhum token recebido." }).end();
 
     try {
-        const payload = jsonwebtoken.verify(token, process.env.SECRET_JWT);
+        const payload = jsonwebtoken.verify(token, process.env.JWT_SECRET);
         req.headers['login'] = payload; 
         next();
     } catch (err) {
